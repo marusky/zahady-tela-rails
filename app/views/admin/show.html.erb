@@ -1,0 +1,174 @@
+<%= turbo_stream_from @game %>
+<%= turbo_stream_from @team_1 %>
+<%= turbo_stream_from @team_2 %>
+
+<div class="bg-white h-screen grid grid-cols-12 grid-rows-4 p-4 gap-4">
+  <%= button_to questions_open_path, method: :patch,
+                                        form_class: "col-span-2",
+                                        class: "group w-full h-full" do %>
+    <div class="text-4xl w-full h-full text-teal-900 bg-teal-400 rounded-2xl flex justify-center items-center hover:bg-teal-300 cursor-pointer group disabled:pointer-events-none">
+      <div class="group-disabled:hidden">
+        <i class="fa-solid fa-lock-open"></i>
+      </div>
+      <div class="hidden group-disabled:block">
+        <i class="fa-solid fa-spinner animate-spin"></i>
+      </div>
+    </div>
+  <% end %>
+
+  <%= button_to questions_close_path, method: :patch,
+                                      form_class: "col-span-2",
+                                      class: "group w-full h-full" do %>
+    <div class="text-4xl w-full h-full text-rose-900 bg-rose-400 rounded-2xl flex justify-center items-center hover:bg-rose-300 cursor-pointer group disabled:pointer-events-none">
+      <div class="group-disabled:hidden">
+        <% if @game.question.open? %>
+          <div data-controller="countdown" data-countdown-target="countdown">
+            20
+          </div>
+        <% else %>
+          <i class="fa-solid fa-lock"></i>
+        <% end %>
+      </div>
+      <div class="hidden group-disabled:block">
+        <i class="fa-solid fa-spinner animate-spin"></i>
+      </div>
+    </div>
+  <% end %>
+
+  <%= button_to questions_evaluate_path, method: :patch,
+                                          form_class: "col-span-2",
+                                          class: "group w-full h-full" do %>
+    <div class="text-4xl w-full h-full text-blue-900 bg-blue-400 rounded-2xl flex justify-center items-center hover:bg-blue-300 cursor-pointer group disabled:pointer-events-none">
+      <div class="group-disabled:hidden">
+        <i class="fa-solid fa-square-poll-vertical"></i>
+      </div>
+      <div class="hidden group-disabled:block">
+        <i class="fa-solid fa-spinner animate-spin"></i>
+      </div>
+    </div>
+  <% end %>
+
+  <%= button_to next_question_game_path, method: :patch,
+                                          form_class: "col-span-2",
+                                          class: "group w-full h-full" do %>
+    <div class="text-4xl w-full h-full text-gray-900 bg-gray-400 rounded-2xl flex justify-center items-center hover:bg-gray-300 cursor-pointer group disabled:pointer-events-none">
+      <div class="group-disabled:hidden">
+        <i class="fa-solid fa-forward"></i>
+      </div>
+      <div class="hidden group-disabled:block">
+        <i class="fa-solid fa-spinner animate-spin"></i>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="col-span-4 row-span-2 rounded-2xl bg-gray-200 text-gray-700 p-6 relative">
+    <div class="mb-3 flex justify-between items-center">
+      <div class="text-5xl">
+        <%= @team_1.name %>
+      </div>
+      <div class="text-3xl">
+        <i class="fa-solid fa-users mr-2"></i>
+        <%= @team_1.players.count %>
+      </div>
+    </div>
+    <div class="space-y-2">
+      <% @questions.each.with_index do |question, index| %>
+        <div class="text-xl">
+          Q<%= index + 1 %>:
+          <span class="ml-2">
+            <%= question.correct_answers_count_for_team(@team_1.id) %>
+            &nbsp;
+            <i class="fa-solid fa-check"></i>
+          </span>
+        </div>
+      <% end %>
+    </div>
+    <div class="absolute p-6 left-0 bottom-0 right-0 text-2xl text-center">
+      Celkový počet bodov: <%= @team_1.points %>
+    </div>
+  </div>
+
+  <div class="col-span-4 row-span-2 rounded-2xl bg-gray-200 text-gray-700 p-6 relative">
+    <div class="mb-3 flex justify-between items-center">
+      <div class="text-5xl">
+        <%= @team_2.name %>
+      </div>
+      <div class="text-3xl">
+        <i class="fa-solid fa-users mr-2"></i>
+        <%= @team_2.players.count %>
+      </div>
+    </div>
+    <div class="space-y-2">
+      <% @questions.each.with_index do |question, index| %>
+        <div class="text-xl">
+          Q<%= index + 1 %>:
+          <span class="ml-2">
+            <%= question.correct_answers_count_for_team(@team_2.id) %>
+            &nbsp;
+            <i class="fa-solid fa-check"></i>
+          </span>
+        </div>
+      <% end %>
+    </div>
+    <div class="absolute p-6 left-0 bottom-0 right-0 text-2xl text-center">
+      Celkový počet bodov: <%= @team_2.points %>
+    </div>
+  </div>
+
+  <%= button_to finish_game_path, method: :patch,
+                                  form_class: "col-span-4",
+                                  class: "group w-full h-full",
+                                  data: { 
+                                    turbo_confirm: "Si si istý? Týmto ukončíš hru."
+                                  } do %>
+    <div class="text-4xl w-full h-full text-slate-300 bg-slate-900 rounded-2xl flex justify-center items-center hover:bg-slate-700 cursor-pointer group disabled:pointer-events-none">
+      <div class="group-disabled:hidden">
+        <i class="fa-solid fa-stop"></i>
+      </div>
+      <div class="hidden group-disabled:block">
+        <i class="fa-solid fa-spinner animate-spin"></i>
+      </div>
+    </div>
+  <% end %>
+
+  <%= button_to reset_game_path, method: :patch,
+                                 form_class: "col-span-4",
+                                 class: "group w-full h-full",
+                                 data: { 
+                                   turbo_confirm: "Si si istý? Týmto vymažeš všetky odpovede, všetkých hráčov a resetuješ hru."
+                                 } do %>
+    <div class="text-4xl w-full h-full text-rose-300 bg-rose-900 rounded-2xl flex justify-center items-center hover:bg-rose-700 cursor-pointer group disabled:pointer-events-none">
+      <div class="group-disabled:hidden">
+        <i class="fa-solid fa-skull-crossbones"></i>
+      </div>
+      <div class="hidden group-disabled:block">
+        <i class="fa-solid fa-spinner animate-spin"></i>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="col-start-9 col-end-13 row-start-1 row-end-5 flex justify-center items-center">
+    <div class="<%= phone_bg_color(@game.question.state) %> w-[320px] h-[612px] p-8 rounded-4xl border-3 border-gray-900 shadow-gray-400/80 shadow-xl flex justify-center items-center flex-col relative">
+      <%= render 'badge' %>
+      <h3 class="text-2xl text-center"><%= @game.question.text %></h3>
+      <% if @game.finished? %>
+        <div class="text-5xl font-medium absolute left-1/2 top-1/2 px-20 py-12 rounded-xl -translate-x-1/2 -translate-y-1/2 bg-slate-900 text-slate-300">
+          KONIEC!
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<% if @game.prepared? %>
+  <div class='fixed inset-0 flex justify-center items-center backdrop-blur'>
+    <%= button_to start_game_path, method: :patch, class: "group w-40 px-5 py-3 bg-gray-950 text-white rounded-xl hover:bg-gray-800 disabled:bg-gray-800 cursor-pointer" do %>
+      <div class="group-disabled:hidden">
+        Spustiť hru
+      </div>
+      <div class="hidden group-disabled:block">
+        <i class="fa-solid fa-spinner animate-spin"></i>
+      </div>
+    <% end %>
+  </div>
+<% end %>

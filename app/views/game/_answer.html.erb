@@ -1,0 +1,20 @@
+<% if @question.evaluated? %>
+  <% if @answer.is_correct %>
+    <div data-controller="evaluation" data-correct="true" class="text-2xl font-medium">
+      Správna odpoveď! 🎉
+    </div>
+  <% else %>
+    <div data-controller="evaluation" data-correct="false" class="text-2xl font-medium">
+      Nesprávna odpoveď. 😢
+    </div>
+  <% end %>
+<% else %>
+  <h2 class="text-2xl font-medium"><%= @question.text %></h2>
+  <div class="mt-12">
+    <% if @answer.fact? %>
+      <%= answer_fact %>
+    <% else %>
+      <%= answer_myth %>
+    <% end %>
+  </div>
+<% end %>

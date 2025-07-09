@@ -1,0 +1,47 @@
+<%= turbo_stream_from @game %>
+
+<div data-controller="visibility"></div>
+
+<div class="fixed top-3 left-0 right-0">
+  <%= image_tag "logo-mid.png", width: 150, class: "mx-auto logo" %>
+</div>
+
+<div class="text-[#061718] mt-40 p-6 text-center">
+  <% if @game.prepared? %>
+    <div class="text-2xl font-medium">
+      Hra čoskoro začne.
+    </div>
+  <% elsif @game.started? %>
+    <section>
+      <% if @answer.answered? %>
+        <%= render "answer" %>
+      <% else %>
+        <%= render "question", question: @game.question %>
+      <% end %>
+    </section>
+  <% elsif @game.finished? %>
+    <div class="text-2xl">
+      <div class="font-medium">
+        To je všetko. 😇
+      </div>
+      <div class="mt-4">
+        Tvoje skóre:
+      </div>
+      <div>
+        <%= Current.player.correct_answers %>
+        /
+        <%= Question.count %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<% if @question.open? && !@answer.answered? %>
+  <div class="fixed bottom-0 left-0 right-0">    
+    <div data-controller="countdown">
+      <div class="w-full h-4 overflow-hidden">
+        <div class="h-full bg-gradient-to-r from-yellow-400 via-amber-500 to-yellow-400 w-full transition-all duration-1000 ease-linear" data-countdown-target="bar"></div>
+      </div>
+    </div>
+  </div>
+<% end %>

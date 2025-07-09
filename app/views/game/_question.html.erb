@@ -1,0 +1,36 @@
+<% if question.prepared? %>
+  <h2 class="text-2xl font-medium">Fakt alebo mýtus?</h2>
+<% elsif question.open? %>
+  <h2 class="text-2xl font-medium"><%= question.text %></h2>
+  <%= form_with model: @answer, class: "mt-12 space-y-4" do |form| %>
+    <%= form.hidden_field :question_id, value: @game.question.id %>
+    <div>
+      <%= form.radio_button :answer, "fact", class: "peer hidden" %>
+      <%= form.label :answer_fact, "Fakt", id: "fact", class: "block text-center py-3 px-4 rounded-2xl block w-full text-[#061718] bg-[#79cbd3] peer-checked:bg-blue-50 peer-checked:shadow-lg shadow-teal-800/30 transition-all duration-150" %>
+    </div>
+
+    <div>
+      <%= form.radio_button :answer, "myth", class: "peer hidden" %>
+      <%= form.label :answer_myth, "Mýtus", id: "myth", class: "block text-center py-3 px-4 rounded-2xl block w-full text-[#061718] bg-[#79cbd3] peer-checked:bg-blue-50 peer-checked:shadow-lg shadow-teal-800/30 transition-all duration-150" %>
+    </div>
+
+    <div class="left-6 right-6 bottom-10">
+      <%= button_tag type: :submit, class: "group w-full" do %>
+        <div class="absolute left-6 right-6 bottom-20 bg-[#114c50] group-disabled:bg-[#295e62] px-5 py-3 rounded-2xl text-white ">
+          <div class="group-disabled:hidden">
+            Uložiť
+          </div>
+          <div class="hidden group-disabled:block">
+            <i class="fa-solid fa-spinner animate-spin"></i>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+<% elsif @question.closed? %>
+  <h2 class="text-2xl font-medium">Čas vypršal.</h2>
+<% elsif @question.evaluated? %>
+  <div data-controller="evaluation" data-correct="false">
+    <h2 class="text-2xl font-medium">Čas vypršal.</h2>
+  </div>
+<% end %>

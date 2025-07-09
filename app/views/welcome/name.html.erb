@@ -1,0 +1,26 @@
+<div class="mt-24 p-6 space-y-12">
+  <%= image_tag "logo-full.png", width: 300, class: "mx-auto" %>
+
+  <div>
+    <%= form_with method: :get, url: welcome_team_path do |form| %>
+      <div>
+        <%= form.text_field :name, placeholder: "Tvoje meno", class: "w-full text-center placeholder-[#365f62] text-[#061718] px-5 py-3 bg-[#96e5ec] text-slate-950 rounded-xl outline outline-[#bceef2] focus:outline-[#365f62]" %>
+      </div>
+      <div>
+        <%= %>
+      </div>
+      <div class="left-6 right-6 bottom-10">
+        <%= button_tag type: :submit, class: "group w-full" do %>
+          <div class="absolute left-6 right-6 bottom-20 bg-[#114c50] group-disabled:bg-[#295e62] px-5 py-3 rounded-2xl text-white ">
+            <div class="group-disabled:hidden">
+              Pokračovať
+            </div>
+            <div class="hidden group-disabled:block">
+              <i class="fa-solid fa-spinner animate-spin"></i>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

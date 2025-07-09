@@ -1,0 +1,27 @@
+<div class="mt-24 p-6 space-y-12">
+  <%= image_tag "logo-full.png", width: 300, class: "mx-auto logo" %>
+
+  <%= form_with model: @player, class: "space-y-4" do |form| %>
+    <%= form.hidden_field :name, value: @player.name %>
+    <div>
+      <%= form.radio_button :team_id, @team_1.id, class: "peer hidden" %>
+      <%= form.label "team_id_#{@team_1.id}", @team_1.name, class: "text-center py-3 px-4 rounded-2xl block w-full text-[#061718] bg-[#79cbd3] peer-checked:bg-blue-50 peer-checked:shadow-lg shadow-teal-800/30 transition-all duration-150" %>
+    </div>
+    <div class="shadow-[#79cbd3]">
+      <%= form.radio_button :team_id, @team_2.id, class: "peer hidden" %>
+      <%= form.label "team_id_#{@team_2.id}", @team_2.name, class: "text-center py-3 px-4 rounded-2xl block w-full text-[#061718] bg-[#79cbd3] peer-checked:bg-blue-50 peer-checked:shadow-lg shadow-teal-800/30 transition-all duration-150" %>
+    </div>
+    <div class="left-6 right-6 bottom-10">
+      <%= button_tag type: :submit, class: "group w-full" do %>
+        <div class="absolute left-6 right-6 bottom-20 bg-[#114c50] group-disabled:bg-[#295e62] px-5 py-3 rounded-2xl text-white ">
+          <div class="group-disabled:hidden">
+            Hotovo!
+          </div>
+          <div class="hidden group-disabled:block">
+            <i class="fa-solid fa-spinner animate-spin"></i>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

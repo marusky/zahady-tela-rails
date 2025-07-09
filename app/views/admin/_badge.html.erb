@@ -1,0 +1,18 @@
+<% case @game.question.state.to_sym %>
+<% when :prepared %>
+  <div class="absolute px-4 py-1.5 rounded-xl text-gray-800 font-medium bg-gray-400 shadow-lg shadow-gray-400/60 text-sm left-1/2 top-3 -translate-x-1/2">
+    Pripravená
+  </div>
+<% when :open %>
+  <div class="absolute px-4 py-1.5 rounded-xl text-teal-800 font-medium bg-teal-400 shadow-lg shadow-teal-400/60 text-sm left-1/2 top-3 -translate-x-1/2">
+    Otvorená
+  </div>
+<% when :closed %>
+  <div class="absolute px-4 py-1.5 rounded-xl text-rose-800 font-medium bg-rose-400 shadow-lg shadow-rose-400/60 text-sm left-1/2 top-3 -translate-x-1/2">
+    Zatvorená
+  </div>
+<% when :evaluated %>
+  <div class="absolute px-4 py-1.5 rounded-xl text-blue-800 font-medium bg-blue-400 shadow-lg shadow-blue-400/60 text-sm left-1/2 top-3 -translate-x-1/2">
+    Vyhodnotená
+  </div>
+<% end %>
