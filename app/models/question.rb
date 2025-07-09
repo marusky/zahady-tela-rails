@@ -20,7 +20,7 @@ class Question < ApplicationRecord
 
   private
     def schedule_closing
-      QuestionCloserJob.set(wait: 20).perform_later(self)
+      QuestionCloserJob.set(wait: 5).perform_later(self)
     end
 
     def question_opened?

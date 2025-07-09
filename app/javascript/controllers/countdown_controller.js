@@ -5,8 +5,14 @@ export default class extends Controller {
   static targets = ["bar", "countdown"];
 
   connect() {
-    const totalTime = 20;
+    const totalTime = 5;
     var count = totalTime;
+
+    requestAnimationFrame(() => {
+      if (this.hasBarTarget) {
+        this.barTarget.style.width = `${80}%`;
+      }
+    })
 
     const intervalId = setInterval(() => {
       count--;
@@ -15,7 +21,7 @@ export default class extends Controller {
       }
 
       if (this.hasBarTarget) {
-        const percentage = ((count - 1) / (totalTime - 1)) * 100;
+        const percentage = ((count - 1) / totalTime) * 100;
         this.barTarget.style.width = `${percentage}%`;
       }
 
