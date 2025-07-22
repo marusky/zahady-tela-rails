@@ -2,11 +2,8 @@
 
 <div data-controller="visibility"></div>
 
-<div class="fixed top-3 left-0 right-0">
-  <%= image_tag "logo-mid.png", width: 150, class: "mx-auto logo" %>
-</div>
-
-<div class="text-[#061718] mt-40 p-6 text-center">
+<div class="text-[#061718] p-6 pb-32 text-center relative min-h-screen">
+  <%= image_tag "logo-mid.png", width: 150, class: "mx-auto logo mb-24" %>
   <% if @game.prepared? %>
     <div class="text-2xl font-medium">
       Hra čoskoro začne.
